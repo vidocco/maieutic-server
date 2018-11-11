@@ -1,0 +1,6 @@
+github.com/gorilla/websocket v1.4.0 h1:WDFjx/TMzVgy9VdMMQi2K2Emtwi2QcUQsztZ/zLaH/Q=
+github.com/gorilla/websocket v1.4.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
+github.com/joho/godotenv v1.3.0 h1:Zjp+RcGpHhGlrMbJzXTrZZPrWj+1vfm90La1wgB6Bhc=
+github.com/joho/godotenv v1.3.0/go.mod h1:7hK45KPybAkOC6peb+G5yklZfMxEjkZhHbwpqxOKXbg=
+github.com/naoina/denco v0.0.0-20180930074809-8475105a6b4c h1:OuYPoLEOYbguEn/ihiCTfWM0cjzY5R77CA2vzmx2M8Y=
+github.com/naoina/denco v0.0.0-20180930074809-8475105a6b4c/go.mod h1:rJwHqj5scxcViM0kq4dh/d1E9sLBeI1snvkNVX4mQGY=

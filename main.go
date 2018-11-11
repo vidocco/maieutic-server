@@ -1,0 +1,22 @@
+package main
+
+import (
+	"log"
+	"maieutic-server/env"
+	"maieutic-server/middlewares"
+	"maieutic-server/router"
+	"maieutic-server/utils"
+	"net/http"
+)
+
+func main() {
+	r := router.NewRouter()
+	handler := middlewares.ApplyMiddleware(r)
+	log.Printf("Frank running in %s%s", env.GetOr("FRANK_HOST", "localhost"), env.GetOr("FRANK_PORT", ":1212"))
+	err := http.ListenAndServe(env.GetOr("FRANK_PORT", ":1212"), handler)
+	utils.CheckErr(err)
+}
+
+func init() {
+	env.SetEnv()
+}
