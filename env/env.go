@@ -1,6 +1,7 @@
 package env
 
 import (
+	"github.com/joho/godotenv"
 	"maieutic-server/utils"
 	"os"
 )
