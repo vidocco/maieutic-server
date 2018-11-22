@@ -8,6 +8,7 @@ import (
 	"maieutic-server/sockets"
 	"maieutic-server/utils"
 	"net/http"
+	"strconv"
 )
 
 func main() {
@@ -20,5 +21,7 @@ func main() {
 
 func init() {
 	env.SetEnv()
-	go sockets.ClientHandler()
+	number, err := strconv.Atoi(env.GetOr("SOCKET_HANDLERS", "4"))
+	utils.CheckErr(err)
+	sockets.SpawnSocketHandlers(number)
 }
