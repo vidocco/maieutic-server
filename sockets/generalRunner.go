@@ -4,9 +4,14 @@ func clientHandler () {
 	for {
 		msg := <- Broadcast
 
-		if msg.Event.Type == "message" {
-			// TODO: we need the client here (the user that sent the message...)
+		if msg.Event.Type == "init" {
+			addUser(msg.Client)
+		} else if msg.Event.Type == "message" {
+			rooms[clients[msg.Client].Room].Broadcast <- msg.Event
+		} else if msg.Event.Type == "create room" {
 
+		} else if msg.Event.Type == "join room" {
+			
 		}
 	}
 }
