@@ -5,6 +5,7 @@ import (
 	"maieutic-server/env"
 	"maieutic-server/middlewares"
 	"maieutic-server/router"
+	"maieutic-server/sockets"
 	"maieutic-server/utils"
 	"net/http"
 )
@@ -19,4 +20,5 @@ func main() {
 
 func init() {
 	env.SetEnv()
+	go sockets.ClientHandler()
 }
