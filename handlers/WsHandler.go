@@ -31,6 +31,13 @@ func WsHandler (w http.ResponseWriter, r *http.Request, params denco.Params) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	utils.CheckErr(err)
 
+	sockets.Broadcast <- sockets.QueuedEvent{
+		sockets.Event{
+			"init",
+			"",
+		},
+		conn,
+	}
 	defer conn.Close()
 
 	for {
