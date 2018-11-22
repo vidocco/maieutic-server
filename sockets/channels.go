@@ -3,8 +3,13 @@ package sockets
 import "github.com/gorilla/websocket"
 
 type Event struct {
-	Type string
-	Content interface{}
+	Type string `json:"type"`
+	Content interface{} `json:"content"`
+}
+
+type QueuedEvent struct {
+	Event Event
+	Client *websocket.Conn
 }
 
 type content struct {
@@ -31,7 +36,7 @@ type user struct {
 	Room string
 }
 
-var Broadcast = make(chan Event)
+var Broadcast = make(chan QueuedEvent)
 var rooms = make(map[string]room)
 var keys = make(map[string]roomKey)
 var clients = make(map[*websocket.Conn]user)
