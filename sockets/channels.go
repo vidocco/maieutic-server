@@ -12,18 +12,9 @@ type QueuedEvent struct {
 	Client *websocket.Conn
 }
 
-type content struct {
-	Encrypted string `json:"encrypted"`
-}
-
-type message struct {
-	Type string
-	Content content
-}
-
 type room struct {
 	Users []*websocket.Conn
-	Broadcast chan message
+	Broadcast chan Event
 }
 
 type roomKey struct {
@@ -44,7 +35,7 @@ var clients = make(map[*websocket.Conn]user)
 func newRoom (user *websocket.Conn) room {
 	return room{
 		[]*websocket.Conn{user},
-		make(chan message),
+		make(chan Event),
 	}
 }
 
