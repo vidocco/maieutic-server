@@ -32,9 +32,16 @@ func WsHandler (w http.ResponseWriter, r *http.Request, params denco.Params) {
 	utils.CheckErr(err)
 
 	defer conn.Close()
+
 	for {
 		var msg sockets.Event
 		err := conn.ReadJSON(&msg)
+		utils.CheckErr(err)
+
+		qMsg := sockets.QueuedEvent{
+			msg,
+			conn,
+		}
 
 		if err != nil {
 			log.Printf("error: %v", err)
@@ -42,6 +49,6 @@ func WsHandler (w http.ResponseWriter, r *http.Request, params denco.Params) {
 			break
 		}
 
-		sockets.Broadcast <- msg
+		sockets.Broadcast <- qMsg
 	}
 }
