@@ -9,7 +9,7 @@ import (
 	"net/http/httputil"
 )
 
-func logger(h http.Handler) http.Handler {
+func logger (h http.Handler) http.Handler {
 	PADDING := "================================"
 	consumeBody := env.GetOr("GO_ENV", "development") == "development"
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
