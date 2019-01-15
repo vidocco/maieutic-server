@@ -8,5 +8,6 @@ type Middlewares []Middleware
 
 var stack = Middlewares{
 	//logger,
+	auth,
 	cors,
 }

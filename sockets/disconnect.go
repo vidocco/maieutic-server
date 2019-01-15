@@ -10,7 +10,7 @@ func Disconnect (conn *websocket.Conn) {
 		rooms[room].Broadcast <- Event{ "disconnect", "" }
 		<- rooms[room].Broadcast
 		delete(rooms, room)
-		delete(keys, room)
 	}
+	// TODO: disconnect user from room
 	delete(clients, conn)
 }

@@ -17,60 +17,47 @@ type room struct {
 	Broadcast chan Event
 }
 
-type roomKey struct {
-	Public string
-	Private string
-}
-
 type user struct {
 	Client *websocket.Conn
 	Room string
 }
 
 var Broadcast = make(chan QueuedEvent)
-var rooms = make(map[string]room)
-var keys = make(map[string]roomKey)
-var clients = make(map[*websocket.Conn]user)
+var rooms = make(map[string] *room)
+var clients = make(map[*websocket.Conn] *user)
 
-func newRoom (user *websocket.Conn) room {
-	return room{
+func newRoom (user *websocket.Conn) *room {
+	return &room{
 		[]*websocket.Conn{user},
 		make(chan Event),
 	}
 }
 
-func newKeys (key string) roomKey {
-	public, private := genKeys()
-	return roomKey{
-		public,
-		private,
-	}
-}
-
-func genKeys() (public string, private string) {
-	// TODO: generate a public and private key and encrypt with specified key
-	return "", ""
-}
-
-func newUser (client *websocket.Conn, roomId string) user {
-	return user{
+func newUser (client *websocket.Conn, roomId string) *user {
+	return &user{
 		client,
 		roomId,
 	}
 }
 
-func addRoom (id string, key string, user *websocket.Conn) {
+func addRoom (id string, user *websocket.Conn) {
 	/**
-	 * TODO: when creating a new room, the user needs a room name, password and key.
-	 * the room name is used to add to the rooms map. We check if the password matches the server pass and if it does:
-	 * If the room did not previously exist, we create a new private and public key, encrypt them with the client key
-	 * and return it to the original client (so the original client can decrypt them with his own key).
-	 * Else, we return the existing ones.
+	 * TODO: when creating a new room, the user needs a room name and a server password (which will be used in a middleware).
+
+	- we check if the password matches the server pass.
+	- we use the room name to create a new room in the rooms map.
+	- return success to the client.
+
+	2) Send one message encrypted with a single key, said key is encrypted multiple times (with the public keys of each user) and sent.
 	 */
 	rooms[id] = newRoom(user)
-	keys[id] = newKeys(key)
-	clients[user] = newUser(user, id)
+	clients[user].Room = id
 	go roomHandler(id)
+}
+
+func joinRoom (id string, user *websocket.Conn) {
+	rooms[id].Users = append(rooms[id].Users, user)
+	clients[user].Room = id
 }
 
 func addUser (client *websocket.Conn) {
